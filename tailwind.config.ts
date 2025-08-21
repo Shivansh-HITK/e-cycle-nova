@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				inter: ['Inter', 'sans-serif'],
+				orbitron: ['Orbitron', 'monospace'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -52,16 +56,40 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+				cyber: {
+					blue: 'hsl(var(--cyber-blue))',
+					'blue-dark': 'hsl(var(--cyber-blue-dark))',
+					'blue-light': 'hsl(var(--cyber-blue-light))',
+					'blue-glow': 'hsl(var(--cyber-blue-glow))',
+				},
+				eco: {
+					green: 'hsl(var(--eco-green))',
+					'green-dark': 'hsl(var(--eco-green-dark))',
+					'green-light': 'hsl(var(--eco-green-light))',
+					'green-glow': 'hsl(var(--eco-green-glow))',
+				},
+				electric: {
+					purple: 'hsl(var(--electric-purple))',
+					'purple-dark': 'hsl(var(--electric-purple-dark))',
+				},
+				surface: {
+					primary: 'hsl(var(--surface-primary))',
+					secondary: 'hsl(var(--surface-secondary))',
+					tertiary: 'hsl(var(--surface-tertiary))',
+					elevated: 'hsl(var(--surface-elevated))',
 				}
+			},
+			backgroundImage: {
+				'gradient-cyber': 'var(--gradient-cyber)',
+				'gradient-eco': 'var(--gradient-eco)',
+				'gradient-surface': 'var(--gradient-surface)',
+				'gradient-glow': 'var(--gradient-glow)',
+			},
+			boxShadow: {
+				'cyber': 'var(--shadow-cyber)',
+				'eco': 'var(--shadow-eco)',
+				'elevated': 'var(--shadow-elevated)',
+				'glow': 'var(--shadow-glow)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -70,25 +98,59 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { boxShadow: 'var(--shadow-cyber)' },
+					'50%': { boxShadow: 'var(--shadow-glow)' }
+				},
+				'slide-in-right': {
+					'0%': { transform: 'translateX(100%)' },
+					'100%': { transform: 'translateX(0)' }
+				},
+				'slide-in-left': {
+					'0%': { transform: 'translateX(-100%)' },
+					'100%': { transform: 'translateX(0)' }
+				},
+				'fade-in-up': {
+					'0%': { opacity: '0', transform: 'translateY(30px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'cyber-pulse': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px hsl(var(--cyber-blue) / 0.3)',
+						borderColor: 'hsl(var(--cyber-blue) / 0.5)'
 					},
-					to: {
-						height: '0'
+					'50%': { 
+						boxShadow: '0 0 40px hsl(var(--cyber-blue) / 0.6)',
+						borderColor: 'hsl(var(--cyber-blue))'
 					}
+				},
+				'data-flow': {
+					'0%': { transform: 'translateX(-100%) scaleX(0)' },
+					'50%': { transform: 'translateX(0%) scaleX(1)' },
+					'100%': { transform: 'translateX(100%) scaleX(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 3s ease-in-out infinite',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+				'slide-in-right': 'slide-in-right 0.5s ease-out',
+				'slide-in-left': 'slide-in-left 0.5s ease-out',
+				'fade-in-up': 'fade-in-up 0.6s ease-out',
+				'cyber-pulse': 'cyber-pulse 2s ease-in-out infinite',
+				'data-flow': 'data-flow 3s ease-in-out infinite'
 			}
 		}
 	},
