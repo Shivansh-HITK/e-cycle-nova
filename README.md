@@ -60,6 +60,34 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Backend (Supabase) setup
+
+1. Install Supabase CLI and link your project.
+2. Set the following environment variables in Supabase functions:
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `RESEND_API_KEY` (optional, for email notifications)
+   - `PUBLIC_APP_URL` (used to build QR deep-links)
+3. Apply migrations:
+   ```bash
+   supabase db reset --db-url "$DATABASE_URL"
+   # or
+   supabase db push
+   ```
+4. Deploy functions:
+   ```bash
+   supabase functions deploy admin-actions
+   supabase functions deploy send-notification
+   supabase functions deploy qr-generate
+   supabase functions deploy qr-scan
+   ```
+5. Test RPCs in SQL editor:
+   ```sql
+   select assign_item('ITEM_UUID'::uuid, 'DRIVER_UUID'::uuid, null);
+   select record_tracking_event('ITEM_UUID'::uuid, 'collected', null, null, 'Picked up', '{}'::jsonb);
+   select create_qr_token('ITEM_UUID'::uuid, 'handoff', 120);
+   ```
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/32345bea-76e5-43a8-b7b7-725e7269fb51) and click on Share -> Publish.
