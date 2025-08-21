@@ -13,11 +13,6 @@ import UserProfile from '@/pages/UserProfile';
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState('home');
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-  const handleAuthToggle = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -40,8 +35,6 @@ const Index = () => {
       <Navigation 
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        isLoggedIn={isLoggedIn}
-        onAuthToggle={handleAuthToggle}
       />
       {renderPage()}
     </div>

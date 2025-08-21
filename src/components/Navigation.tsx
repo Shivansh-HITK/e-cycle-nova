@@ -13,20 +13,21 @@ import {
   LogOut,
   Menu,
   X,
-  Recycle
+  Recycle,
+  Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 
 interface NavigationProps {
   currentPage: string;
   onPageChange: (page: string) => void;
-  isLoggedIn: boolean;
-  onAuthToggle: () => void;
 }
 
-const Navigation = ({ currentPage, onPageChange, isLoggedIn, onAuthToggle }: NavigationProps) => {
+const Navigation = ({ currentPage, onPageChange }: NavigationProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
@@ -118,20 +119,43 @@ const Navigation = ({ currentPage, onPageChange, isLoggedIn, onAuthToggle }: Nav
 
           {/* Auth Button & Mobile Menu */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant={isLoggedIn ? "outline" : "default"}
-              size="sm"
-              onClick={onAuthToggle}
-              className={cn(
-                "hidden sm:flex items-center space-x-2 transition-all duration-300",
-                isLoggedIn 
-                  ? "border-cyber-blue text-cyber-blue hover:bg-cyber-blue/10" 
-                  : "bg-gradient-cyber text-background hover:shadow-cyber"
-              )}
-            >
-              {isLoggedIn ? <LogOut className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
-              <span>{isLoggedIn ? 'Logout' : 'Login'}</span>
-            </Button>
+            {user ? (
+              <div className="hidden sm:flex items-center space-x-3">
+                <span className="text-sm text-muted-foreground">
+                  {profile?.display_name || user.email}
+                </span>
+                {profile?.role === 'admin' && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.location.href = '/admin'}
+                    className="items-center space-x-2"
+                  >
+                    <Shield className="w-4 h-4" />
+                    <span>Admin</span>
+                  </Button>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={signOut}
+                  className="border-cyber-blue text-cyber-blue hover:bg-cyber-blue/10"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  <span>Logout</span>
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => window.location.href = '/auth'}
+                className="hidden sm:flex items-center space-x-2 bg-gradient-cyber text-background hover:shadow-cyber"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Login</span>
+              </Button>
+            )}
 
             {/* Mobile Menu Button */}
             <Button
@@ -179,15 +203,40 @@ const Navigation = ({ currentPage, onPageChange, isLoggedIn, onAuthToggle }: Nav
                 })}
                 
                 <div className="pt-2 border-t border-cyber-blue/20">
-                  <Button
-                    variant={isLoggedIn ? "outline" : "default"}
-                    size="sm"
-                    onClick={onAuthToggle}
-                    className="w-full justify-start"
-                  >
-                    {isLoggedIn ? <LogOut className="w-4 h-4 mr-3" /> : <LogIn className="w-4 h-4 mr-3" />}
-                    {isLoggedIn ? 'Logout' : 'Login'}
-                  </Button>
+                  {user ? (
+                    <>
+                      {profile?.role === 'admin' && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => window.location.href = '/admin'}
+                          className="w-full justify-start mb-2"
+                        >
+                          <Shield className="w-4 h-4 mr-3" />
+                          Admin Panel
+                        </Button>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={signOut}
+                        className="w-full justify-start"
+                      >
+                        <LogOut className="w-4 h-4 mr-3" />
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => window.location.href = '/auth'}
+                      className="w-full justify-start"
+                    >
+                      <LogIn className="w-4 h-4 mr-3" />
+                      Login
+                    </Button>
+                  )}
                 </div>
               </div>
             </motion.div>
